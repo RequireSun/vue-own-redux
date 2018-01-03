@@ -1,5 +1,7 @@
 <template>
-    <slot :state="state" :action="stores.actions"></slot>
+    <div>
+        <slot :state="state" :action="stores.actions"></slot>
+    </div>
 </template>
 
 <script>

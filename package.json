@@ -1,6 +1,6 @@
 {
   "name": "vue-own-redux",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A connector to make a vue component has its own redux store.",
   "main": "component.vue",
   "scripts": {
