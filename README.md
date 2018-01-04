@@ -37,47 +37,59 @@ export default {
 </script>
 ```
 
-1. create a store and its actions with `redux` and `redux-actions`, and pass them into your component.
+1. create a store and its actions with `redux` and `redux-actions`.
+
+   use `bindActions` to bind actions on the store.
 
    counter.js
-   ```
-const reducers = handleActions({
-    [ADD](state, action) {
-        return {
-            ...state,
-            count: state.count + action.payload.amount,
-        }
-    },
-    [MINUS](state, action) {
-        return {
-            ...state,
-            count: state.count - action.payload.amount,
-        }
-    }
-}, {
-    count: 0,
-});
- 
-const store = createStore(reducers);
- 
-const actions = bindActions(store, createActions({
-    [ADD]: info => info,
-    [MINUS]: info => info,
-}));
+   
+```
+import {createStore} from 'redux';
+import {createActions,handleActions} from 'redux-actions';
+import bindActions from 'vue-own-redux/bindActions';
 
-return {
-    actions,
-    store,
-};
-   ```
+const ADD = 'ADD';
+const MINUS = 'MINUS';
 
-1. import your component where you want, create new store & actions and pass them into your component.
+export default function () {
+   const reducers = handleActions({
+       [ADD](state, action) {
+           return {
+               ...state,
+               count: state.count + action.payload.amount,
+           }
+       },
+       [MINUS](state, action) {
+           return {
+               ...state,
+               count: state.count - action.payload.amount,
+           }
+       }
+   }, {
+       count: 0,
+   });
+
+   const store = createStore(reducers);
+
+   const actions = bindActions(store, createActions({
+       [ADD]: info => info,
+       [MINUS]: info => info,
+   }));
+
+   return {
+       actions,
+       store,
+   };
+}
+```
+
+1. import your component where you want, create new `store` & `actions`, then pass them into your component.
    
    the `stores` property must have two properties `store` and `actions`.
    
    page.vue
 
-   ```
+```
 <template>
     <div>
         <h1>{{ msg }}</h1>
@@ -108,4 +120,4 @@ export default {
     }
 }
 </script>
-   ```
+```
