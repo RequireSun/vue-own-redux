@@ -1,4 +1,3 @@
-
 const normalizeMap = function (map) {
     return Array.isArray(map)
         ? map.map(key => ({ key, val: key }))
