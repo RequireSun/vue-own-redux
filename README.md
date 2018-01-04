@@ -3,6 +3,8 @@ vue-own-redux
 
 This is a connector to make a vue component has its own redux store.
 
+demo: [https://github.com/RequireSun/vue-single](https://github.com/RequireSun/vue-single)
+
 # How to use
 
 1. import the component of `vue-own-redux` as a component of your vue component.
