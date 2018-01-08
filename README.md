@@ -7,6 +7,105 @@ demo: [https://github.com/RequireSun/vue-single](https://github.com/RequireSun/v
 
 # How to use
 
+1. import the `wrapper` function and use it to wrap the object `<script>` tag exported.
+
+```
+import wrapper from 'vue-own-redux/wrapper';
+
+export default wrapper({
+    name: 'xxx',
+    ...
+});
+```
+
+1. create a store and its actions with `redux` and `redux-actions`.
+
+   use `bindActions` to bind actions on the store.
+
+   counter.js
+   
+```
+import {createStore} from 'redux';
+import {createActions,handleActions} from 'redux-actions';
+import bindActions from 'vue-own-redux/bindActions';
+
+const ADD = 'ADD';
+const MINUS = 'MINUS';
+
+export default function () {
+   const reducers = handleActions({
+       [ADD](state, action) {
+           return {
+               ...state,
+               count: state.count + action.payload.amount,
+           }
+       },
+       [MINUS](state, action) {
+           return {
+               ...state,
+               count: state.count - action.payload.amount,
+           }
+       }
+   }, {
+       count: 0,
+   });
+
+   const store = createStore(reducers);
+
+   const actions = bindActions(store, createActions({
+       [ADD]: info => info,
+       [MINUS]: info => info,
+   }));
+
+   return {
+       actions,
+       store,
+   };
+}
+```
+
+1. import your component where you want, create new `store` & `actions`, then pass them into your component.
+   
+   the `stores` property must have two properties `store` and `actions`.
+   
+   page.vue
+
+```
+<template>
+    <div>
+        <h1>{{ msg }}</h1>
+        <counter :stores="stores"></counter>
+        <counter :stores="stores2"></counter>
+    </div>
+</template>
+
+<script>
+import counter from '../counter';
+import elCounter from '../counter.vue';
+
+export default {
+    name: 'HelloWorld',
+    components: {
+        counter: elCounter,
+    },
+    data () {
+        return {
+            msg: 'Welcome to Your Vue.js App',
+            stores: {},
+            stores2: {},
+        }
+    },
+    mounted () {
+        this.stores = counter();
+        this.stores2 = counter();
+    }
+}
+</script>
+```
+
+
+# Outdated
+
 1. import the component of `vue-own-redux` as a component of your vue component.
    
    define the way how parent element pass the store and actions in:
