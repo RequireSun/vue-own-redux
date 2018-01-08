@@ -1,19 +1,21 @@
-export default function (target) {
+export default function wrapper(target) {
     function onStateChange() {
         this.state = this.stores.store.getState();
     }
 
-    const data = target.prototype.data;
-    const mounted = target.prototype.mounted;
-    const beforeDestroy = target.prototype.beforeDestroy;
+    const data = target.data;
+    const mounted = target.mounted;
+    const beforeDestroy = target.beforeDestroy;
 
-    target.prototype.data = function () {
-        return Object.assign(('function' === typeof data && data()) || {}, {
+    target.data = function () {
+        let obj = ('function' === typeof data && data()) || {};
+        return Object.assign(obj, {
             state: this.stores && this.stores.store ? this.stores.store.getState() : {}
         });
     };
 
-    target.prototype.mounted = function () {
+
+    target.mounted = function () {
         'function' === typeof mounted && mounted.call(this);
 
         if (this.stores && this.stores.store && this.stores.store.subscribe) {
@@ -33,10 +35,12 @@ export default function (target) {
         });
     };
 
-    target.prototype.beforeDestroy = function () {
+    target.beforeDestroy = function () {
         'function' === typeof beforeDestroy && beforeDestroy.call(this);
 
         this.unsubscribe && this.unsubscribe();
         this.unsubscribe = undefined;
     };
+
+    return target;
 }
