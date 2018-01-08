@@ -1,6 +1,6 @@
 <template>
     <div>
-        <slot :state="state" :action="stores.actions"></slot>
+        <slot :state="state" :action="stores.actions" :business="stores.business"></slot>
     </div>
 </template>
 
