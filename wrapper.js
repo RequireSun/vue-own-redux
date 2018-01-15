@@ -7,13 +7,16 @@ export default function wrapper(target) {
     const mounted = target.mounted;
     const beforeDestroy = target.beforeDestroy;
 
+    if (-1 === target.props.indexOf('stores')) {
+        target.props.push('stores');
+    }
+    
     target.data = function () {
         let obj = ('function' === typeof data && data()) || {};
         return Object.assign(obj, {
             state: this.stores && this.stores.store ? this.stores.store.getState() : {}
         });
     };
-
 
     target.mounted = function () {
         'function' === typeof mounted && mounted.call(this);
