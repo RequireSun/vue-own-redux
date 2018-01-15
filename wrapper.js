@@ -7,7 +7,9 @@ export default function wrapper(target) {
     const mounted = target.mounted;
     const beforeDestroy = target.beforeDestroy;
 
-    if (-1 === target.props.indexOf('stores')) {
+    if (!target.props) {
+        target.props = ['stores'];
+    } else if (-1 === target.props.indexOf('stores')) {
         target.props.push('stores');
     }
     
