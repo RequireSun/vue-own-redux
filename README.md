@@ -66,7 +66,9 @@ export default function () {
 
 1. import your component where you want, create new `store` & `actions`, then pass them into your component.
    
-   the `stores` property must have two properties `store` and `actions`.
+   the `business` property must have two properties `store` and `actions`.
+
+   `businesses` property also can be an object that contains many businesses, when you pass a businesses object in this format, the `state` property in Vue component will also provide states in this format.
    
    page.vue
 
@@ -74,8 +76,8 @@ export default function () {
 <template>
     <div>
         <h1>{{ msg }}</h1>
-        <counter :stores="stores"></counter>
-        <counter :stores="stores2"></counter>
+        <counter :business="stores"></counter>
+        <counter :business="stores2"></counter>
     </div>
 </template>
 
